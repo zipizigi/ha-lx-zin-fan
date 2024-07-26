@@ -1,0 +1,47 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "userId": "User ID",
+                    "deviceId": "Device ID"
+                }
+            }
+        }
+    },
+    "entity": {
+        "select": {
+            "lamp": {
+                "state": {
+                    "none": "Off",
+                    "display": "Disply",
+                    "all": "All"
+                }
+            }
+        },
+        "fan": {
+            "fan": {
+                "state_attributes": {
+                    "preset_mode": {
+                        "state": {
+                            "FORCE_OUT": "Force Out",
+                            "AUTO":"Auto",
+                            "TURBO":"Turbo",
+                            "SLEEP":"Sleep",
+                            "FAN":"Fan Mode",
+                            "FORCE_IN":"Force In"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

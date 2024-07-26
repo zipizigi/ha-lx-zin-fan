@@ -1,0 +1,47 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "이미 추가된 장치입니다."
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "userId": "User ID",
+                    "deviceId": "Device ID"
+                }
+            }
+        }
+    },
+    "entity": {
+        "select": {
+            "lamp": {
+                "state": {
+                    "none": "끔",
+                    "display": "디스플레이",
+                    "all": "모두"
+                }
+            }
+        },
+        "fan": {
+            "fan": {
+                "state_attributes": {
+                    "preset_mode": {
+                        "state": {
+                            "FORCE_OUT": "강제배기",
+                            "AUTO":"자동",
+                            "TURBO":"터보",
+                            "SLEEP":"취침",
+                            "FAN":"풍량",
+                            "FORCE_IN":"급기"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
