@@ -1,0 +1,14 @@
+{
+  "domain": "lx_zin_fan",
+  "name": "LX Z:in Fan",
+  "codeowners": ["@zipizigi"],
+  "config_flow": true,
+  "dependencies": ["http"],
+  "documentation": "https://www.home-assistant.io/integrations/lx_zin_fan",
+  "homekit": {},
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": []
+}
