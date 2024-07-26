@@ -1,11 +1,12 @@
 """Support for Naver Weather Sensors."""
 
 import logging
-from typing import Any, cast
+from typing import cast
 
 from homeassistant.components.select import SelectEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
 from .zin_api import LXZinApi, LXZinInfo
@@ -30,7 +31,7 @@ class ZinLampEntity(SelectEntity):
     def __init__(self, api: LXZinApi) -> None:
         """Initialize the fan."""
         self.api = api
-        self.info: LXZinInfo = None
+        self.info: LXZinInfo = api.data
 
     @property
     def unique_id(self) -> str:
@@ -38,7 +39,7 @@ class ZinLampEntity(SelectEntity):
         return self.api.deviceId
 
     @property
-    def device_info(self) -> Any:
+    def device_info(self) -> DeviceInfo | None:
         """Get device info."""
         return self.info.deviceInfo if self.info is not None else None
 
@@ -69,7 +70,7 @@ class ZinLampEntity(SelectEntity):
     @property
     def name(self) -> str | None:
         """Return the name of the fan."""
-        return self.info.name + " - 램프" if self.info is not None else None
+        return self.info.name + " 램프" if self.info is not None else None
 
     @property
     def should_poll(self) -> bool:

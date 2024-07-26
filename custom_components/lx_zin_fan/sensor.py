@@ -6,6 +6,7 @@ from typing import Any, cast
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
 from .zin_api import LXZinApi, LXZinInfo
@@ -87,7 +88,7 @@ async def async_setup_entry(
                 None,
                 "lastUpdated",
                 None,
-                False,
+                True,
             ),
         ]
     )
@@ -111,7 +112,7 @@ class ZinSensorEntity(SensorEntity):
         self.api = api
         self.nameSuffix = nameSuffix
         self.idSuffix = idSuffix
-        self.info: LXZinInfo = None
+        self.info: LXZinInfo = api.data
         self.deviceClass: SensorDeviceClass = deviceClass
         self.unit = unit
         self.infoKey = infoKey
@@ -144,7 +145,7 @@ class ZinSensorEntity(SensorEntity):
         return self.stateClass
 
     @property
-    def device_info(self) -> Any:
+    def device_info(self) -> DeviceInfo | None:
         """Get device info."""
         return self.info.deviceInfo if self.info is not None else None
 
@@ -156,9 +157,7 @@ class ZinSensorEntity(SensorEntity):
     @property
     def name(self) -> str | None:
         """Return the name of the fan."""
-        return (
-            self.info.name + " - " + self.nameSuffix if self.info is not None else None
-        )
+        return self.info.name + " " + self.nameSuffix if self.info is not None else None
 
     @property
     def should_poll(self) -> bool:
