@@ -7,6 +7,7 @@ from typing import Any, Optional, cast
 from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 from homeassistant.util.percentage import (
     int_states_in_range,
@@ -37,7 +38,7 @@ class ZinFanEntity(FanEntity):
     def __init__(self, api: LXZinApi) -> None:
         """Initialize the fan."""
         self.api = api
-        self.info: LXZinInfo = None
+        self.info: LXZinInfo = api.data
         self.SPEED_RANGE = (1, 3)
         self.ORDERED_NAMED_FAN_SPEEDS = ["low", "mid", "high"]
 
@@ -47,7 +48,7 @@ class ZinFanEntity(FanEntity):
         return self.api.deviceId
 
     @property
-    def device_info(self) -> Any:
+    def device_info(self) -> DeviceInfo | None:
         """Get device info."""
         return self.info.deviceInfo if self.info is not None else None
 

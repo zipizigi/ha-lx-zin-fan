@@ -3,12 +3,13 @@
 import asyncio
 import logging
 
-import dateutil.parser
-
 import aiohttp
+import dateutil.parser
 import jwt
 
-from .const import Preset
+from homeassistant.helpers.device_registry import DeviceInfo
+
+from .const import DOMAIN, Preset
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -20,6 +21,8 @@ class LXZinInfo:
         """Init."""
         sensor = json["sensor"]
         device = json["device"]
+        self.userId = str(json["ownerId"])
+        self.deviceId = str(json["_id"])
         self.name = str(device["name"])
         self.co2 = int(sensor["airCondition"]["co2"])
         self.pm25 = int(sensor["airCondition"]["pm2_5"])
@@ -44,18 +47,16 @@ class LXZinInfo:
         filterUsageTime = int(sensor["filter"]["filterUsageTime"])
         self.filter = int((filterLifeTime - filterUsageTime) / filterLifeTime * 100)
         self.lastUpdated = dateutil.parser.parse(str(json["lastUpdatedAt"]))
-        self.deviceInfo = {
-            "manufacturer": str(device["manufacturer"]),
-            "serial_number": str(device["serialNo"]),
-            "macAddr": str(device["macAddr"]),
-            "connType": str(device["connType"]),
-            "deviceId": str(device["deviceId"]),
-            "model": str(device["type"]),
-            "name_by_user": str(json["ownerId"]),
-            "name": str(device["name"]),
-            "sw_version": str(device["firmware"]["modem"]["version"]),
-            "hw_version": str(device["firmware"]["mcu"]["version"]),
-        }
+
+        self.deviceInfo = DeviceInfo(
+            manufacturer=str(device["manufacturer"]),
+            serial_number=str(device["serialNo"]),
+            name=str(device["name"]),
+            model=str(device["type"]),
+            sw_version=str(device["firmware"]["modem"]["version"]),
+            hw_version=str(device["firmware"]["mcu"]["version"]),
+            identifiers={(DOMAIN, self.deviceId)},
+        )
 
     def __getitem__(self, key):
         """Get with []."""
