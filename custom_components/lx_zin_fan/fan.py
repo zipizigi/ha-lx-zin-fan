@@ -3,6 +3,7 @@
 import logging
 import math
 from typing import Any, Optional, cast
+import time
 
 from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.config_entries import ConfigEntry
@@ -39,6 +40,7 @@ class ZinFanEntity(FanEntity):
         """Initialize the fan."""
         self.api = api
         self.info: LXZinInfo = api.data
+        self.lastChecked: float = 0
         self.SPEED_RANGE = (1, 3)
         self.ORDERED_NAMED_FAN_SPEEDS = ["low", "mid", "high"]
 
@@ -142,5 +144,13 @@ class ZinFanEntity(FanEntity):
 
     async def async_update(self) -> None:
         """Fetch new state data for the fan."""
-        await self.api.update()
+        current = time.time()
+        checkTime = 90
+        if self.info is not None and not self.info.power:
+            checkTime = 180
+
+        if current - self.lastChecked > checkTime:
+            await self.api.update()
+            self.lastChecked = current
+
         self.info = self.api.data
