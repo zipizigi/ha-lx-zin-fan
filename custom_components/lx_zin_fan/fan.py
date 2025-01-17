@@ -94,7 +94,7 @@ class ZinFanEntity(FanEntity):
     @property
     def supported_features(self) -> FanEntityFeature:
         """Return the list of supported features."""
-        return FanEntityFeature.SET_SPEED | FanEntityFeature.PRESET_MODE | FanEntityFeature.TRUN_OFF | FanEntityFeature.TURN_ON
+        return FanEntityFeature.SET_SPEED | FanEntityFeature.PRESET_MODE | FanEntityFeature.TURN_OFF | FanEntityFeature.TURN_ON
 
     @property
     def percentage(self) -> int:
